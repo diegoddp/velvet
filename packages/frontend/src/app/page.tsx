@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 
 const featuredCreators = [
@@ -113,6 +115,8 @@ function TrustIcon({ type }: { type: string }) {
 }
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <main className="velvet-shell">
       <div className="velvet-container">
@@ -152,7 +156,36 @@ export default function Home() {
               Criar conta
             </Link>
           </div>
+          {/* Hamburger — only visible on mobile/tablet via CSS */}
+          <button
+            className="velvet-hamburger"
+            aria-label="Abrir menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? (
+              <svg viewBox="0 0 24 24" className="velvet-hamburger-svg">
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" className="velvet-hamburger-svg">
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
         </header>
+
+        {/* Mobile/tablet dropdown menu */}
+        {menuOpen && (
+          <div className="velvet-mobile-menu" onClick={() => setMenuOpen(false)}>
+            <a href="#">Sobre</a>
+            <a href="#">Recursos</a>
+            <a href="#">Blog</a>
+            <div className="velvet-mobile-menu-divider" />
+            <Link href="/login" className="velvet-btn velvet-btn-ghost velvet-mobile-menu-btn">Entrar</Link>
+            <Link href="/register" className="velvet-btn velvet-btn-main velvet-mobile-menu-btn">Criar conta</Link>
+          </div>
+        )}
 
         <section className="velvet-hero rise delay-1">
           <div className="velvet-copy-col">
