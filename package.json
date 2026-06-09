@@ -8,11 +8,11 @@
     "packages/frontend"
   ],
   "scripts": {
-    "dev": "yarn workspace admire-backend dev & yarn workspace admire-frontend dev",
+    "dev": "npm run dev --workspace=admire-frontend",
     "build": "npm run build --workspace=admire-frontend",
-    "test": "yarn workspaces run test",
-    "lint": "yarn workspaces run lint",
-    "start": "node packages/backend/dist/index.js"
+    "test": "npm run test --workspace=admire-frontend",
+    "lint": "npm run lint --workspace=admire-frontend",
+    "start": "npm run start --workspace=admire-frontend"
   },
   "devDependencies": {
     "typescript": "^5.3.0",
