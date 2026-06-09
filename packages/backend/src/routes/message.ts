@@ -165,7 +165,7 @@ router.get('/inbox', authenticateToken, async (req: AuthenticatedRequest, res: R
 
     // Get unique users from conversations
     const conversationUserIds = new Set<string>();
-    messages.forEach(msg => {
+    messages.forEach((msg: { senderId: string; recipientId: string }) => {
       if (msg.senderId !== userId) {
         conversationUserIds.add(msg.senderId);
       }

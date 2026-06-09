@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "yarn workspace admire-backend dev & yarn workspace admire-frontend dev",
-    "build": "yarn workspaces run build",
+    "build": "npm run build --workspace=admire-frontend",
     "test": "yarn workspaces run test",
     "lint": "yarn workspaces run lint",
     "start": "node packages/backend/dist/index.js"
