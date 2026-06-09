@@ -760,6 +760,98 @@ body {
   gap: 1.1rem;
 }
 
+.velvet-mobile-banner-head {
+  display: none;
+}
+
+.velvet-mobile-promo {
+  display: none;
+}
+
+.velvet-mobile-promo-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.velvet-mobile-hero-copy {
+  display: none;
+}
+
+.velvet-mobile-hero-brandblock {
+  display: grid;
+  justify-items: center;
+  gap: 0.18rem;
+  width: auto;
+  margin: 0 auto;
+  padding: 0.48rem 0.9rem 0.42rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  position: relative;
+  z-index: 2;
+}
+
+.velvet-mobile-hero-brand,
+.velvet-mobile-hero-title,
+.velvet-mobile-hero-subtitle,
+.velvet-mobile-hero-note {
+  margin: 0;
+}
+
+.velvet-mobile-hero-brand {
+  font-size: 1.72rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: #fff;
+  font-weight: 500;
+}
+
+.velvet-mobile-hero-tagline {
+  font-size: 0.9rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.94);
+  font-weight: 700;
+  text-align: center;
+}
+
+.velvet-mobile-hero-copy .velvet-mobile-hero-title {
+    display: none;
+}
+
+.velvet-mobile-hero-copy .velvet-mobile-hero-title span {
+  color: #ff5aa5;
+}
+
+.velvet-mobile-hero-subtitle {
+    display: none;
+}
+
+.velvet-mobile-hero-actions {
+  display: flex;
+  flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.2rem;
+}
+
+.velvet-mobile-hero-actions .velvet-btn {
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+    padding: 0.92rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+}
+
+.velvet-mobile-hero-note {
+    padding-top: 0.3rem;
+  color: #9aa2c3;
+    font-size: 0.72rem;
+}
+
 .velvet-copy-col {
   max-width: 560px;
 }
@@ -1315,10 +1407,12 @@ body {
   }
 
   .velvet-nav {
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
     gap: 0.6rem;
     padding: 0.65rem 0.85rem;
   }
+
+  .velvet-logo { grid-column: 1; }
 
   .velvet-search { display: none; }
   .velvet-links { display: none; }
@@ -1327,6 +1421,8 @@ body {
 
   .velvet-hamburger {
     display: inline-flex;
+    grid-column: 3;
+    justify-self: end;
   }
 
   .velvet-hero {
@@ -1421,12 +1517,14 @@ body {
 
   /* Nav: logo | CTAs | hamburger — search + links hidden */
   .velvet-nav {
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
     grid-template-rows: auto;
     gap: 0.5rem;
     padding: 0.6rem 0.75rem;
     border-radius: 12px;
   }
+
+  .velvet-logo { grid-column: 1; }
 
   .velvet-search {
     display: none;
@@ -1438,40 +1536,128 @@ body {
 
   .velvet-hamburger {
     display: inline-flex;
+    grid-column: 3;
+    justify-self: end;
   }
 
   /* Hero: single column */
   .velvet-hero {
     grid-template-columns: 1fr;
-    padding: 1.1rem 0.75rem 0.9rem;
-    gap: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding: 0.5rem 0.5rem 0.85rem;
+    gap: 0.6rem;
     border-radius: 0;
+    background: linear-gradient(110deg, rgba(6, 11, 34, 0.95), rgba(3, 8, 28, 0.98));
+  }
+
+  .velvet-mobile-promo {
+    display: block;
+    margin: 0;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    border-radius: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-top: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.1) 28%, rgba(0, 0, 0, 0.78) 100%);
+    box-shadow: 0 20px 46px rgba(0, 0, 0, 0.42);
+    flex: 1 1 auto;
+    min-height: calc(100svh - 4.65rem);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .velvet-mobile-promo-content {
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 3rem;
+    z-index: 2;
+  }
+
+  .velvet-mobile-hero-copy {
+    display: none;
+  }
+
+  .velvet-mobile-promo-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    flex: 1 1 auto;
+    object-fit: cover;
+    object-position: 90% 54%;
+    position: relative;
+    z-index: 0;
+  }
+
+  .velvet-mobile-promo-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.12) 24%, rgba(0, 0, 0, 0.26) 62%, rgba(0, 0, 0, 0.82) 100%),
+      radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.035), transparent 34%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .velvet-mobile-banner-head {
+    display: none;
+  }
+
+  .velvet-mobile-banner-brand {
+    margin: 0;
+    font-size: 1.95rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    font-weight: 500;
+    color: #f6f7ff;
+  }
+
+  .velvet-mobile-banner-tagline {
+    margin: 0;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+    color: #fff;
+    font-weight: 600;
   }
 
   .velvet-copy-col {
-    max-width: 100%;
+    display: none;
   }
 
   .velvet-title {
-    font-size: clamp(1.9rem, 8vw, 2.6rem);
-    line-height: 1.08;
+    display: none;
   }
 
   .velvet-subtitle {
-    font-size: 0.9rem;
-    max-width: 100%;
+    display: none;
   }
 
   .velvet-hero-actions {
-    flex-direction: column;
-    gap: 0.55rem;
+    display: none;
   }
 
   .velvet-hero-actions .velvet-btn {
     width: 100%;
     min-width: 0;
-    padding: 0.78rem 1rem;
-    font-size: 0.86rem;
+    padding: 0.84rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  .velvet-hero-actions .velvet-btn-main {
+    background: linear-gradient(135deg, #b05bff 0%, #ff4d93 70%, #ff5fb1 100%);
+  }
+
+  .velvet-hero-actions .velvet-btn-ghost {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border-color: rgba(255, 255, 255, 0.24);
+  }
+
+  .velvet-hero-actions .velvet-btn-icon {
+    display: inline-grid;
   }
 
   /* Hide V artwork and security card on mobile */
@@ -1480,13 +1666,7 @@ body {
   }
 
   .velvet-security-card {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    text-align: left;
-    gap: 0 0.75rem;
-    align-items: center;
-    padding: 0.8rem;
-    border-radius: 14px;
+    display: none;
   }
 
   .velvet-security-icon {
@@ -1507,38 +1687,41 @@ body {
     align-self: start;
   }
 
-  /* Featured section */
   .velvet-featured {
-    padding: 0.8rem 0.6rem;
+    margin-top: 0.85rem;
+    padding: 0.78rem;
+    border-radius: 12px;
+    border-color: rgba(255, 255, 255, 0.06);
+    background: rgba(6, 10, 30, 0.64);
   }
 
   .velvet-featured-header {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    align-items: flex-start;
+    gap: 0.95rem;
+    margin-bottom: 1.9rem;
   }
 
   .velvet-featured-header h2 {
-    font-size: 1.35rem;
-    flex: 1 1 100%;
+    font-size: 2.05rem;
+    line-height: 1.02;
+    margin-bottom: 0.22rem;
   }
 
   .velvet-featured-header a {
-    font-size: 0.84rem;
-    margin-left: auto;
-  }
-
-  /* Cards: 2 columns on mobile */
-  .velvet-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.68rem;
+    margin-top: 0.08rem;
+    font-size: 0.88rem;
+    line-height: 1.15;
   }
 
   .velvet-creator-card {
-    padding: 0.46rem;
-    aspect-ratio: 1 / 1;
+    padding: 0.56rem;
     display: grid;
     grid-template-rows: auto 1fr auto;
+  }
+
+  .velvet-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.78rem;
   }
 
   .velvet-avatar-row {
@@ -1563,8 +1746,8 @@ body {
 
   .velvet-preview {
     height: auto;
-    min-height: 0;
-    margin-top: 0.4rem;
+    min-height: 5.1rem;
+    margin-top: 0.5rem;
   }
 
   .velvet-preview-overlay {
@@ -1579,7 +1762,7 @@ body {
   }
 
   .velvet-card-footer {
-    margin-top: 0.35rem;
+    margin-top: 0.48rem;
     padding: 0 0.08rem 0.02rem;
   }
 

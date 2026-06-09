@@ -123,7 +123,7 @@ export default function Home() {
         <header className="velvet-nav rise">
           <div className="velvet-logo">
             <span className="velvet-logo-mark">V</span>
-            <span>VELVET</span>
+            <span>ELVET</span>
           </div>
           <div className="velvet-search">
             <span className="velvet-search-icon" aria-hidden="true">⌕</span>
@@ -188,6 +188,25 @@ export default function Home() {
         )}
 
         <section className="velvet-hero rise delay-1">
+          <div className="velvet-mobile-promo" aria-hidden="true">
+            <div className="velvet-mobile-hero-brandblock">
+                 <p className="velvet-mobile-hero-tagline">Onde a imaginação encontra o prazer.</p>
+            </div>
+            <img src="/placeholders/mobile-banner.png" alt="" className="velvet-mobile-promo-image" />
+            <div className="velvet-mobile-promo-overlay" />
+            <div className="velvet-mobile-promo-content">
+              <div className="velvet-mobile-hero-actions">
+                <Link href="/register" className="velvet-btn velvet-btn-main">
+                  Criar perfil
+                </Link>
+                <Link href="/login" className="velvet-btn velvet-btn-ghost">
+                  Entrar
+                </Link>
+              </div>
+              <p className="velvet-mobile-hero-note">* Plataforma exclusiva para maiores de 18 anos.</p>
+            </div>
+          </div>
+
           <div className="velvet-copy-col">
             <h1 className="velvet-title">
               A rede premium
@@ -201,22 +220,9 @@ export default function Home() {
             </p>
             <div className="velvet-hero-actions">
               <Link href="/register" className="velvet-btn velvet-btn-main">
-                <span className="velvet-btn-icon" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" className="velvet-btn-icon-svg">
-                    <path d="M10 4v12" />
-                    <path d="M4 10h12" />
-                  </svg>
-                </span>
                 Criar perfil
               </Link>
               <Link href="/login" className="velvet-btn velvet-btn-ghost">
-                <span className="velvet-btn-icon" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" className="velvet-btn-icon-svg">
-                    <path d="M10 2.5h4.5A2.5 2.5 0 0 1 17 5v10a2.5 2.5 0 0 1-2.5 2.5H10" />
-                    <path d="M12 10H3" />
-                    <path d="m6.5 6.5-3.5 3.5 3.5 3.5" />
-                  </svg>
-                </span>
                 Entrar
               </Link>
             </div>
@@ -303,7 +309,7 @@ export default function Home() {
         <footer className="velvet-footer rise delay-2">
           <div className="velvet-logo">
             <span className="velvet-logo-mark">V</span>
-            <span>VELVET</span>
+            <span>ELVET</span>
           </div>
           <div className="velvet-footer-links">
             <a href="#">Termos de Uso</a>
