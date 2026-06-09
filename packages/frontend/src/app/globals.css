@@ -1230,12 +1230,22 @@ body {
 
   .velvet-nav {
     grid-template-columns: auto 1fr auto;
-    gap: 0.6rem;
+    grid-template-rows: auto auto;
+    gap: 0.4rem 0.6rem;
     padding: 0.65rem 0.85rem;
   }
 
   .velvet-nav-separator { display: none; }
-  .velvet-links { display: none; }
+
+  /* Nav links in second row spanning full width */
+  .velvet-links {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 1.8rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
 
   .velvet-cta-row {
     display: inline-flex;
@@ -1332,10 +1342,11 @@ body {
     width: 100%;
   }
 
-  /* Nav: logo left, CTAs right, hide search/links */
+  /* Nav: logo | links row | CTAs — search hidden */
   .velvet-nav {
     grid-template-columns: auto 1fr auto;
-    gap: 0.5rem;
+    grid-template-rows: auto auto;
+    gap: 0.4rem 0.5rem;
     padding: 0.6rem 0.75rem;
     border-radius: 12px;
   }
@@ -1344,7 +1355,16 @@ body {
     display: none;
   }
 
-  .velvet-links { display: none; }
+  /* Nav links span full width on second row */
+  .velvet-links {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 1.4rem;
+    padding-top: 0.3rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
   .velvet-nav-separator { display: none; }
 
   .velvet-cta-row {
