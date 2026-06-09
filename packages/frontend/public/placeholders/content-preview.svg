@@ -1,0 +1,18 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1A3F"/>
+      <stop offset="50%" stop-color="#381354"/>
+      <stop offset="100%" stop-color="#0F1438"/>
+    </linearGradient>
+    <radialGradient id="b" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(610 86) rotate(125) scale(420 320)">
+      <stop stop-color="#FF4D93" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#FF4D93" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" rx="28" fill="url(#a)"/>
+  <rect width="800" height="500" rx="28" fill="url(#b)"/>
+  <rect x="286" y="132" width="228" height="228" rx="114" fill="#ffffff" fill-opacity="0.12"/>
+  <path d="M400 188C366.311 188 339 215.311 339 249C339 282.689 366.311 310 400 310C433.689 310 461 282.689 461 249C461 215.311 433.689 188 400 188ZM390.5 228C390.5 222.753 394.753 218.5 400 218.5C405.247 218.5 409.5 222.753 409.5 228V244.5H426C431.247 244.5 435.5 248.753 435.5 254C435.5 259.247 431.247 263.5 426 263.5H400C394.753 263.5 390.5 259.247 390.5 254V228Z" fill="#F7E8FF" fill-opacity="0.85"/>
+  <text x="400" y="420" text-anchor="middle" fill="#E6D8FF" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="26">Conteudo exclusivo</text>
+</svg>

@@ -1,0 +1,260 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String     @id @default(cuid())
+  email                 String     @unique
+  password              String
+  firstName             String
+  lastName              String
+  cpf                   String     @unique
+  phoneNumber           String?
+  userType              String     @default("SUBSCRIBER")
+  ageVerified           Boolean    @default(false)
+  ageVerificationDate   DateTime?
+  kycStatus             String     @default("NOT_STARTED")
+  lastLogin             DateTime?
+  isActive              Boolean    @default(true)
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  creatorProfile        CreatorProfile?
+  subscriptions         Subscription[]
+  contentPurchases      ContentPurchase[]
+  wallet                Wallet?
+  sentMessages          Message[] @relation("sender")
+  receivedMessages      Message[] @relation("receiver")
+  blockedBy             BlockedUser[] @relation("blockedByUser")
+  blocking              BlockedUser[] @relation("blockingUser")
+  complaints            Complaint[]
+  auditLogs             AuditLog[]
+  ageVerifications      AgeVerification[]
+
+  @@index([email])
+  @@index([userType])
+}
+
+model CreatorProfile {
+  id                    String     @id @default(cuid())
+  userId                String     @unique
+  user                  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  username              String     @unique
+  bio                   String?
+  profileImage          String?
+  bannerImage           String?
+  isVerified            Boolean    @default(false)
+  rating                Float      @default(0)
+  followerCount         Int        @default(0)
+  totalEarnings         Float      @default(0)
+  
+  subscriptionTiers     SubscriptionTier[]
+  content               Content[]
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  @@index([username])
+}
+
+model SubscriptionTier {
+  id                    String     @id @default(cuid())
+  creatorId             String
+  creator               CreatorProfile @relation(fields: [creatorId], references: [userId], onDelete: Cascade)
+  
+  name                  String
+  description           String?
+  price                 Float
+  frequency             String     @default("MONTHLY")
+  isActive              Boolean    @default(true)
+  
+  subscriptions         Subscription[]
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  
+  @@unique([creatorId, name])
+  @@index([creatorId])
+}
+
+model Subscription {
+  id                    String     @id @default(cuid())
+  subscriberId          String
+  subscriber            User       @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+  
+  creatorId             String
+  tierId                String
+  tier                  SubscriptionTier @relation(fields: [tierId], references: [id], onDelete: Cascade)
+  
+  status                String     @default("ACTIVE")
+  startDate             DateTime   @default(now())
+  renewalDate           DateTime
+  
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  
+  @@unique([subscriberId, tierId])
+  @@index([subscriberId])
+  @@index([creatorId])
+  @@index([status])
+}
+
+model Content {
+  id                    String     @id @default(cuid())
+  creatorId             String
+  creator               CreatorProfile @relation(fields: [creatorId], references: [userId], onDelete: Cascade)
+  
+  title                 String
+  description           String?
+  mediaUrl              String
+  thumbnailUrl          String?
+  type                  String     @default("PHOTO")
+  accessType            String     @default("FREE")
+  price                 Float?
+  
+  moderationStatus      String     @default("PENDING")
+  isVisible             Boolean    @default(false)
+  viewCount             Int        @default(0)
+  
+  consentFormUrl        String?
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  
+  purchases             ContentPurchase[]
+
+  @@index([creatorId])
+  @@index([moderationStatus])
+}
+
+model ContentPurchase {
+  id                    String     @id @default(cuid())
+  contentId             String
+  content               Content    @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  
+  buyerId               String
+  buyer                 User       @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  
+  price                 Float
+  status                String     @default("COMPLETED")
+  
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+}
+
+model Message {
+  id                    String     @id @default(cuid())
+  senderId              String
+  sender                User       @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  
+  receiverId            String
+  receiver              User       @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  content               String
+  isPaid                Boolean    @default(false)
+  price                 Float?
+  isRead                Boolean    @default(false)
+  readAt                DateTime?
+  
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+model BlockedUser {
+  id                    String     @id @default(cuid())
+  blockingUserId        String
+  blockingUser          User       @relation("blockingUser", fields: [blockingUserId], references: [id], onDelete: Cascade)
+  
+  blockedUserId         String
+  blockedUser           User       @relation("blockedByUser", fields: [blockedUserId], references: [id], onDelete: Cascade)
+  
+  reason                String?
+  createdAt             DateTime   @default(now())
+  
+  @@unique([blockingUserId, blockedUserId])
+}
+
+model Complaint {
+  id                    String     @id @default(cuid())
+  contentId             String?
+  reporterId            String
+  reporter              User       @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  
+  reason                String
+  urgency               String     @default("NORMAL")
+  status                String     @default("OPEN")
+  description           String?
+  investigationNotes    String?
+  
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  resolvedAt            DateTime?
+  
+  @@index([status])
+  @@index([urgency])
+}
+
+model Wallet {
+  id                    String     @id @default(cuid())
+  userId                String     @unique
+  user                  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  balance               Float      @default(0)
+  bankAccount           String?
+  
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+}
+
+model WalletTransaction {
+  id                    String     @id @default(cuid())
+  walletId              String
+  
+  type                  String
+  amount                Float
+  status                String     @default("COMPLETED")
+  description           String?
+  externalTransactionId String?
+  
+  createdAt             DateTime   @default(now())
+  
+  @@index([walletId])
+}
+
+model AgeVerification {
+  id                    String     @id @default(cuid())
+  userId                String
+  user                  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  provider              String
+  externalId            String?
+  status                String     @default("VERIFIED")
+  expiresAt             DateTime
+  
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+}
+
+model AuditLog {
+  id                    String     @id @default(cuid())
+  userId                String?
+  user                  User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  action                String
+  entityType            String?
+  entityId              String?
+  changes               String?
+  ipAddress             String?
+  userAgent             String?
+  
+  createdAt             DateTime   @default(now())
+  
+  @@index([userId])
+  @@index([action])
+}

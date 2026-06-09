@@ -1,0 +1,25 @@
+{
+  "name": "admire-platform",
+  "version": "1.0.0",
+  "description": "Adult content platform for verified 18+ users in Brazil with strong compliance",
+  "private": true,
+  "workspaces": [
+    "packages/backend",
+    "packages/frontend"
+  ],
+  "scripts": {
+    "dev": "yarn workspace admire-backend dev & yarn workspace admire-frontend dev",
+    "build": "yarn workspaces run build",
+    "test": "yarn workspaces run test",
+    "lint": "yarn workspaces run lint",
+    "start": "node packages/backend/dist/index.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

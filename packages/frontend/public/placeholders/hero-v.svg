@@ -1,0 +1,40 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(615 180) rotate(90) scale(240 520)">
+      <stop stop-color="#FF4D93" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FF4D93" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="left" x1="282" y1="238" x2="596" y2="534" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF67A9"/>
+      <stop offset="0.45" stop-color="#E2509B"/>
+      <stop offset="1" stop-color="#673E8D"/>
+    </linearGradient>
+    <linearGradient id="right" x1="920" y1="236" x2="600" y2="536" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4B92"/>
+      <stop offset="0.42" stop-color="#AA55FF"/>
+      <stop offset="1" stop-color="#5632DD"/>
+    </linearGradient>
+    <linearGradient id="line" x1="818" y1="188" x2="590" y2="606" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B63FF" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#8B63FF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="grain" x="180" y="190" width="860" height="430" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+      <feComponentTransfer in="mono" result="soft">
+        <feFuncA type="table" tableValues="0 0.07"/>
+      </feComponentTransfer>
+      <feBlend mode="screen" in="SourceGraphic" in2="soft"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+
+  <g filter="url(#grain)">
+    <path d="M280 240C362 238 438 240 498 244C548 247 581 276 595 320L604 350L601 536L404 246C364 242 326 241 280 240Z" fill="url(#left)"/>
+    <path d="M922 236C840 234 763 236 704 241C654 244 623 272 608 316L598 350L602 536L799 244C839 239 877 238 922 236Z" fill="url(#right)"/>
+  </g>
+
+  <path d="M846 188L602 536" stroke="url(#line)" stroke-width="3"/>
+  <path d="M597 350L600 536" stroke="#9A6BFF" stroke-width="3" stroke-opacity="0.85"/>
+</svg>
