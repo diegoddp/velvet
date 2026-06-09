@@ -971,8 +971,25 @@ body {
   color: #f8579e;
 }
 
+.velvet-verified-pill {
+  display: none;
+  border: 1px solid rgba(248, 87, 158, 0.55);
+  border-radius: 999px;
+  padding: 0.08rem 0.38rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #ff79bc;
+  background: rgba(248, 87, 158, 0.12);
+}
+
 .velvet-followers {
   color: #c9d0ef;
+}
+
+.velvet-followers-count,
+.velvet-followers-label {
+  display: inline;
 }
 
 .velvet-meta-dot {
@@ -1054,6 +1071,7 @@ body {
   align-items: center;
   gap: 0.25rem;
   min-width: 0;
+  padding: 0 0.15rem 0.05rem;
 }
 
 .velvet-price {
@@ -1513,15 +1531,56 @@ body {
   /* Cards: 2 columns on mobile */
   .velvet-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
+    gap: 0.68rem;
   }
 
   .velvet-creator-card {
-    padding: 0.5rem;
+    padding: 0.46rem;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .velvet-avatar-row {
+    grid-template-columns: 34px 1fr;
+    gap: 0.38rem;
+  }
+
+  .velvet-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .velvet-avatar-row strong {
+    font-size: 0.72rem;
+  }
+
+  .velvet-verified,
+  .velvet-followers {
+    margin-top: 0.08rem;
+    font-size: 0.63rem;
   }
 
   .velvet-preview {
-    height: 80px;
+    height: auto;
+    min-height: 0;
+    margin-top: 0.4rem;
+  }
+
+  .velvet-preview-overlay {
+    font-size: 0.72rem;
+    gap: 0.25rem;
+  }
+
+  .velvet-lock {
+    width: 16px;
+    height: 16px;
+    font-size: 0.55rem;
+  }
+
+  .velvet-card-footer {
+    margin-top: 0.35rem;
+    padding: 0 0.08rem 0.02rem;
   }
 
   .velvet-price strong {
@@ -1533,12 +1592,34 @@ body {
     font-size: 0.76rem;
   }
 
+  .velvet-card-save {
+    display: none;
+  }
+
+  .velvet-meta-dot,
+  .velvet-verified-text {
+    display: none;
+  }
+
+  .velvet-verified-pill {
+    display: inline-flex;
+    align-items: center;
+  }
+
   .velvet-price em {
     display: none;
   }
 
   .velvet-price strong {
-    font-size: 0.88rem;
+    font-size: 0.81rem;
+  }
+
+  .velvet-followers {
+    font-size: 0.68rem;
+  }
+
+  .velvet-followers-label {
+    display: none;
   }
 
   /* Trust bar: 1 column */

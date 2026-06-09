@@ -254,11 +254,13 @@ export default function Home() {
                     <strong>{creator.name}</strong>
                     <p className="velvet-verified">
                       <span className="velvet-meta-dot" aria-hidden="true">◉</span>
-                      {creator.verified ? '18+ Verificada' : 'Perfil'}
+                      <span className="velvet-verified-text">{creator.verified ? '18+ Verificada' : 'Perfil'}</span>
+                      {creator.verified && <span className="velvet-verified-pill">Verificada</span>}
                     </p>
                     <p className="velvet-followers">
                       <span className="velvet-heart-badge" aria-hidden="true">❤</span>
-                      {creator.followers} seguidores
+                      <span className="velvet-followers-count">{creator.followers}</span>
+                      <span className="velvet-followers-label">seguidores</span>
                     </p>
                   </div>
                   <button className="velvet-card-save" aria-label={`Salvar ${creator.name}`}>
