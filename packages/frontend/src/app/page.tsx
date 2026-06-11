@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 const featuredCreators = [
@@ -34,6 +34,10 @@ const featuredCreators = [
     preview: '/placeholders/Designer%20(10).png'
   }
 ];
+
+const carouselCreators = [...featuredCreators, ...featuredCreators, ...featuredCreators];
+const MOBILE_CAROUSEL_INTERVAL_MS = 7000;
+const MOBILE_CAROUSEL_TRANSITION_MS = 4200;
 
 const trustItems = [
   {
@@ -98,6 +102,8 @@ function TrustIcon({ type }: { type: string }) {
 
 export default function Home() {
   const [parallaxY, setParallaxY] = useState(0);
+  const [activeCreatorIndex, setActiveCreatorIndex] = useState(featuredCreators.length);
+  const cardsTrackRef = useRef<HTMLDivElement | null>(null);
   const heroImage = '/placeholders/hero-main.png';
 
   useEffect(() => {
@@ -111,6 +117,150 @@ export default function Home() {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const cardsTrack = cardsTrackRef.current;
+    if (!cardsTrack) {
+      return;
+    }
+
+    const cards = Array.from(cardsTrack.querySelectorAll<HTMLElement>('.velvet-creator-card'));
+    if (cards.length === 0) {
+      return;
+    }
+
+    let nextIndex = featuredCreators.length;
+    let autoRotateTimer: ReturnType<typeof setInterval> | null = null;
+    let rafId: number | null = null;
+
+    const getCardLeft = (index: number) => {
+      const card = cards[index];
+      return card.offsetLeft - (cardsTrack.clientWidth - card.offsetWidth) / 2;
+    };
+
+    const animateTo = (
+      targetScrollLeft: number,
+      duration = MOBILE_CAROUSEL_TRANSITION_MS,
+      onComplete?: () => void
+    ) => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+
+      cardsTrack.style.scrollSnapType = 'none';
+
+      const start = cardsTrack.scrollLeft;
+      const distance = targetScrollLeft - start;
+      const startTime = performance.now();
+
+      const easeInOut = (t: number) => 0.5 - Math.cos(Math.PI * t) / 2;
+
+      const step = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        cardsTrack.scrollLeft = start + distance * easeInOut(progress);
+
+        if (progress < 1) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          rafId = null;
+          cardsTrack.style.scrollSnapType = '';
+          onComplete?.();
+        }
+      };
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    const scrollToCard = (index: number, smooth = true) => {
+      const boundedIndex = Math.max(0, Math.min(index, cards.length - 1));
+      const targetLeft = getCardLeft(boundedIndex);
+
+      // Update active card immediately so transform/opacity animate during the scroll movement.
+      setActiveCreatorIndex(boundedIndex);
+
+      if (smooth) {
+        animateTo(targetLeft, MOBILE_CAROUSEL_TRANSITION_MS, () => {
+          // Keep virtual index in the middle block so looping appears continuous.
+          const upperBound = cards.length - featuredCreators.length;
+          const lowerBound = featuredCreators.length - 1;
+
+          if (boundedIndex >= upperBound) {
+            const normalizedIndex = boundedIndex - featuredCreators.length;
+            cardsTrack.style.scrollSnapType = 'none';
+            cardsTrack.scrollLeft = getCardLeft(normalizedIndex);
+            nextIndex = normalizedIndex;
+            setActiveCreatorIndex(normalizedIndex);
+            requestAnimationFrame(() => {
+              cardsTrack.style.scrollSnapType = '';
+            });
+          } else if (boundedIndex <= lowerBound) {
+            const normalizedIndex = boundedIndex + featuredCreators.length;
+            cardsTrack.style.scrollSnapType = 'none';
+            cardsTrack.scrollLeft = getCardLeft(normalizedIndex);
+            nextIndex = normalizedIndex;
+            setActiveCreatorIndex(normalizedIndex);
+            requestAnimationFrame(() => {
+              cardsTrack.style.scrollSnapType = '';
+            });
+          }
+        });
+      } else {
+        cardsTrack.scrollLeft = targetLeft;
+      }
+
+      nextIndex = boundedIndex;
+    };
+
+    const handleTrackScroll = () => {
+      const viewportCenter = cardsTrack.scrollLeft + cardsTrack.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      cards.forEach((card, index) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(cardCenter - viewportCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      // Only update nextIndex, don't change activeCreatorIndex during scroll
+      nextIndex = closestIndex;
+    };
+
+    const startAutoRotate = () => {
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+      }
+
+      autoRotateTimer = setInterval(() => {
+        scrollToCard(nextIndex + 1);
+      }, MOBILE_CAROUSEL_INTERVAL_MS);
+    };
+
+    cardsTrack.addEventListener('scroll', handleTrackScroll, { passive: true });
+    cardsTrack.addEventListener('touchstart', startAutoRotate, { passive: true });
+    cardsTrack.addEventListener('pointerdown', startAutoRotate, { passive: true });
+
+    scrollToCard(featuredCreators.length, false);
+    startAutoRotate();
+
+    return () => {
+      cardsTrack.removeEventListener('scroll', handleTrackScroll);
+      cardsTrack.removeEventListener('touchstart', startAutoRotate);
+      cardsTrack.removeEventListener('pointerdown', startAutoRotate);
+
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+      }
+
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, []);
 
@@ -162,7 +312,17 @@ export default function Home() {
               <span className="velvet-logo-mark">V</span>
               <span className="velvet-register-brand-text">ELVET</span>
             </div>
-            <button type="button" className="velvet-register-social">Continuar com Google</button>
+            <button type="button" className="velvet-register-social">
+              <span className="velvet-google-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" focusable="false">
+                  <path fill="#EA4335" d="M24 9.5c3.2 0 6.1 1.1 8.3 3.2l6.2-6.2C34.7 2.9 29.7 1 24 1 14.7 1 6.7 6.4 2.8 14.2l7.5 5.8C12.2 13.6 17.6 9.5 24 9.5z" />
+                  <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-2.7-.4-3.9H24v8.1h12.9c-.3 2-1.8 5-5.2 7l8 6.2c4.8-4.5 7.8-11 7.8-17.4z" />
+                  <path fill="#FBBC05" d="M10.3 28.4c-.5-1.5-.8-3-.8-4.4s.3-3 .8-4.4l-7.5-5.8C1 17.1 0 20.4 0 24s1 6.9 2.8 10.2l7.5-5.8z" />
+                  <path fill="#34A853" d="M24 47c6.5 0 11.9-2.1 15.9-5.8l-8-6.2c-2.2 1.5-5.1 2.5-7.9 2.5-6.4 0-11.8-4.1-13.7-9.9l-7.5 5.8C6.7 41.6 14.7 47 24 47z" />
+                </svg>
+              </span>
+              <span>Continuar com Google</span>
+            </button>
             <div className="velvet-register-divider"><span>ou</span></div>
             <p className="velvet-register-message">Registre-se para acompanhar criadoras verificadas e conteudo exclusivo.</p>
             <form className="velvet-register-form">
@@ -209,13 +369,19 @@ export default function Home() {
 
         <section className="velvet-featured rise delay-2">
           <div className="velvet-featured-header">
-            <h2>Criadoras em destaque</h2>
-            <a href="#">Ver todas <span aria-hidden="true">›</span></a>
+            <div className="velvet-featured-heading">
+              <h2>Criadoras em destaque </h2>
+              <p>Curadoria exclusiva de talentos globais.</p>
+            </div>
+            <a href="#" className="velvet-featured-action">Ver todas as criadoras <span aria-hidden="true">›</span></a>
           </div>
 
-          <div className="velvet-cards-grid">
-            {featuredCreators.map((creator) => (
-              <article key={creator.name} className="velvet-creator-card">
+          <div className="velvet-cards-grid" ref={cardsTrackRef}>
+            {carouselCreators.map((creator, index) => (
+              <article
+                key={`${creator.name}-${index}`}
+                className={`velvet-creator-card ${activeCreatorIndex === index ? 'is-active' : ''}`}
+              >
                 <img src={creator.preview} alt={`${creator.name} destaque`} className="velvet-preview-img" />
                 <div className="velvet-preview-overlay" />
                 <div className="velvet-card-footer">
