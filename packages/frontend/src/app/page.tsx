@@ -1,55 +1,37 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const featuredCreators = [
   {
     name: 'Luna Morais',
     verified: true,
-    followers: '152K',
-    price: '39,90',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&h=320&q=80',
-    preview: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&h=500&q=80'
+    category: 'Sensualidade',
+    preview: '/placeholders/Designer%20(6).png'
   },
   {
-    name: 'Aiko Martins',
+    name: 'Ayla Matos',
     verified: true,
-    followers: '98K',
-    price: '34,90',
-    avatar: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=320&h=320&q=80',
-    preview: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&h=500&q=80'
+    category: 'Fitness',
+    preview: '/placeholders/Designer%20(7).png'
   },
   {
-    name: 'Maya Santoro',
+    name: 'Valentina Alves',
     verified: true,
-    followers: '201K',
-    price: '49,90',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=320&h=320&q=80',
-    preview: 'https://images.unsplash.com/photo-1492288991661-058aa541ff43?auto=format&fit=crop&w=800&h=500&q=80'
+    category: 'Lifestyle',
+    preview: '/placeholders/Designer%20(8).png'
   },
   {
-    name: 'Nina Lisboa',
+    name: 'Mika Monroe',
     verified: true,
-    followers: '120K',
-    price: '37,90',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=320&h=320&q=80',
-    preview: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&h=500&q=80'
+    category: 'Fetiche',
+    preview: '/placeholders/Designer%20(9).png'
   },
   {
-    name: 'Clara Rey',
+    name: 'Gia Martins',
     verified: true,
-    followers: '175K',
-    price: '44,90',
-    avatar: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=320&h=320&q=80',
-    preview: 'https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=800&h=500&q=80'
-  },
-  {
-    name: 'Bella Prado',
-    verified: true,
-    followers: '88K',
-    price: '32,90',
-    avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=320&h=320&q=80',
-    preview: 'https://images.unsplash.com/photo-1521577352947-9bb58764b69a?auto=format&fit=crop&w=800&h=500&q=80'
+    category: 'Alternativo',
+    preview: '/placeholders/Designer%20(10).png'
   }
 ];
 
@@ -115,84 +97,32 @@ function TrustIcon({ type }: { type: string }) {
 }
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [parallaxY, setParallaxY] = useState(0);
+  const heroImage = '/placeholders/hero-main.png';
+
+  useEffect(() => {
+    const onScroll = () => {
+      const offset = Math.min(90, window.scrollY * 0.2);
+      setParallaxY(offset);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
 
   return (
     <main className="velvet-shell">
       <div className="velvet-container">
-        <header className="velvet-nav rise">
-          <div className="velvet-logo">
-            <span className="velvet-logo-mark">V</span>
-            <span>ELVET</span>
-          </div>
-          <div className="velvet-search">
-            <span className="velvet-search-icon" aria-hidden="true">⌕</span>
-            <span>Buscar criadoras, temas, categorias...</span>
-          </div>
-          <nav className="velvet-links">
-            <a href="#">Sobre</a>
-            <a href="#">Recursos</a>
-            <a href="#">Blog</a>
-          </nav>
-          <div className="velvet-nav-separator" aria-hidden="true" />
-          <div className="velvet-cta-row">
-            <Link href="/login" className="velvet-btn velvet-btn-ghost">
-              <span className="velvet-btn-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" className="velvet-btn-icon-svg">
-                  <path d="M10 2.5h4.5A2.5 2.5 0 0 1 17 5v10a2.5 2.5 0 0 1-2.5 2.5H10" />
-                  <path d="M12 10H3" />
-                  <path d="m6.5 6.5-3.5 3.5 3.5 3.5" />
-                </svg>
-              </span>
-              Entrar
-            </Link>
-            <Link href="/register" className="velvet-btn velvet-btn-main">
-              <span className="velvet-btn-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" className="velvet-btn-icon-svg">
-                  <path d="M10 4v12" />
-                  <path d="M4 10h12" />
-                </svg>
-              </span>
-              Criar conta
-            </Link>
-          </div>
-          {/* Hamburger — only visible on mobile/tablet via CSS */}
-          <button
-            className="velvet-hamburger"
-            aria-label="Abrir menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? (
-              <svg viewBox="0 0 24 24" className="velvet-hamburger-svg">
-                <path d="M18 6 6 18M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" className="velvet-hamburger-svg">
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </header>
-
-        {/* Mobile/tablet dropdown menu */}
-        {menuOpen && (
-          <div className="velvet-mobile-menu" onClick={() => setMenuOpen(false)}>
-            <a href="#">Sobre</a>
-            <a href="#">Recursos</a>
-            <a href="#">Blog</a>
-            <div className="velvet-mobile-menu-divider" />
-            <Link href="/login" className="velvet-btn velvet-btn-ghost velvet-mobile-menu-btn">Entrar</Link>
-            <Link href="/register" className="velvet-btn velvet-btn-main velvet-mobile-menu-btn">Criar conta</Link>
-          </div>
-        )}
-
         <section className="velvet-hero rise delay-1">
           <div className="velvet-mobile-promo" aria-hidden="true">
             <div className="velvet-mobile-hero-brandblock">
                  <p className="velvet-mobile-hero-tagline">Onde a imaginação encontra o prazer.</p>
             </div>
-            <img src="/placeholders/mobile-banner.png" alt="" className="velvet-mobile-promo-image" />
+            <img src={heroImage} alt="" className="velvet-mobile-promo-image" />
             <div className="velvet-mobile-promo-overlay" />
             <div className="velvet-mobile-promo-content">
               <div className="velvet-mobile-hero-actions">
@@ -207,31 +137,63 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="velvet-copy-col">
-            <h1 className="velvet-title">
-              A rede premium
-              <br />
-              para criadoras
-              <br />
-              <span>verificadas 18+</span>
-            </h1>
-            <p className="velvet-subtitle">
-              Conteudo exclusivo com seguranca e privacidade para criadoras e assinantes.
-            </p>
-            <div className="velvet-hero-actions">
-              <Link href="/register" className="velvet-btn velvet-btn-main">
-                Criar perfil
-              </Link>
-              <Link href="/login" className="velvet-btn velvet-btn-ghost">
-                Entrar
-              </Link>
-            </div>
-            <p className="velvet-note">◌ Plataforma exclusiva para maiores de 18 anos.</p>
+          <div className="velvet-hero-media" aria-hidden="true">
+            <img
+              src={heroImage}
+              alt=""
+              className="velvet-hero-media-img"
+              style={{ '--parallax-y': `${parallaxY}px` } as React.CSSProperties}
+            />
+            <div className="velvet-hero-media-overlay" />
           </div>
 
-          <div className="velvet-v-wrap" aria-hidden="true">
-            <div className="velvet-v-glow" />
-            <img src="/placeholders/hero-v.svg" alt="" className="velvet-v-image" />
+          <div className="velvet-copy-col">
+            <h1 className="velvet-title">
+              onde a imaginação
+              <br />
+              <span>encontra</span>
+              <br />
+              o prazer
+            </h1>
+          </div>
+
+          <aside className="velvet-register-card">
+            <div className="velvet-register-brand">
+              <span className="velvet-logo-mark">V</span>
+              <span className="velvet-register-brand-text">ELVET</span>
+            </div>
+            <button type="button" className="velvet-register-social">Continuar com Google</button>
+            <div className="velvet-register-divider"><span>ou</span></div>
+            <p className="velvet-register-message">Registre-se para acompanhar criadoras verificadas e conteudo exclusivo.</p>
+            <form className="velvet-register-form">
+              <input type="text" placeholder="Nome de usuario" className="velvet-register-input" />
+              <input type="password" placeholder="Senha" className="velvet-register-input" />
+              <input type="email" placeholder="Email" className="velvet-register-input" />
+              <div className="velvet-register-row">
+                <input type="text" placeholder="Cidade" className="velvet-register-input" />
+                <input type="text" placeholder="Estado" className="velvet-register-input" />
+              </div>
+              <div className="velvet-register-row velvet-register-date-row">
+                <input type="text" placeholder="DD" className="velvet-register-input" />
+                <input type="text" placeholder="MM" className="velvet-register-input" />
+                <input type="text" placeholder="AAAA" className="velvet-register-input" />
+              </div>
+              <label className="velvet-register-check">
+                <input type="checkbox" />
+                <span>Confirmo que sou maior de 18 anos e aceito os Termos e Politica de Privacidade.</span>
+              </label>
+              <button type="button" className="velvet-btn velvet-btn-main velvet-register-submit">Criar conta →</button>
+            </form>
+          </aside>
+
+          <div className="velvet-scroll-indicator" aria-hidden="true">
+            <div className="velvet-scroll-mouse">
+              <span className="velvet-scroll-wheel" />
+            </div>
+            <div className="velvet-scroll-arrows">
+              <span>⌄</span>
+              <span>⌄</span>
+            </div>
           </div>
 
           <aside className="velvet-security-card">
@@ -248,44 +210,23 @@ export default function Home() {
         <section className="velvet-featured rise delay-2">
           <div className="velvet-featured-header">
             <h2>Criadoras em destaque</h2>
-            <a href="#">Ver todas as criadoras <span aria-hidden="true">›</span></a>
+            <a href="#">Ver todas <span aria-hidden="true">›</span></a>
           </div>
 
           <div className="velvet-cards-grid">
             {featuredCreators.map((creator) => (
               <article key={creator.name} className="velvet-creator-card">
-                <div className="velvet-avatar-row">
-                  <img src={creator.avatar} alt={`${creator.name} placeholder`} className="velvet-avatar" />
-                  <div className="velvet-avatar-copy">
-                    <strong>{creator.name}</strong>
-                    <p className="velvet-verified">
-                      <span className="velvet-meta-dot" aria-hidden="true">◉</span>
-                      <span className="velvet-verified-text">{creator.verified ? '18+ Verificada' : 'Perfil'}</span>
-                      {creator.verified && <span className="velvet-verified-pill">Verificada</span>}
-                    </p>
-                    <p className="velvet-followers">
-                      <span className="velvet-heart-badge" aria-hidden="true">❤</span>
-                      <span className="velvet-followers-count">{creator.followers}</span>
-                      <span className="velvet-followers-label">seguidores</span>
-                    </p>
-                  </div>
-                  <button className="velvet-card-save" aria-label={`Salvar ${creator.name}`}>
-                    ⌂
-                  </button>
-                </div>
-                <div className="velvet-preview">
-                  <img src={creator.preview} alt="Conteudo exclusivo placeholder" className="velvet-preview-img" />
-                  <div className="velvet-preview-overlay">
-                    <span className="velvet-lock" aria-hidden="true">⌂</span>
-                    <span>Conteudo exclusivo</span>
-                  </div>
-                </div>
+                <img src={creator.preview} alt={`${creator.name} destaque`} className="velvet-preview-img" />
+                <div className="velvet-preview-overlay" />
                 <div className="velvet-card-footer">
-                  <span className="velvet-price">
-                    <strong>R$ {creator.price}</strong>
-                    <em>/mês</em>
-                  </span>
-                  <button className="velvet-subscribe">Assinar</button>
+                  <div>
+                    <strong>{creator.name}</strong>
+                    <p className="velvet-followers">
+                      <span className="velvet-meta-dot" aria-hidden="true">●</span>
+                      {creator.category}
+                    </p>
+                  </div>
+                  <span className="velvet-verified-pill">{creator.verified ? 'Verificada' : 'Perfil'}</span>
                 </div>
               </article>
             ))}
