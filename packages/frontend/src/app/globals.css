@@ -1324,7 +1324,15 @@ h2 {
 
 .velvet-cards-grid {
   display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 0.8rem) / 1.2);
   gap: 0.8rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scroll-behavior: smooth;
 }
 
 .velvet-creator-card {
@@ -1337,7 +1345,6 @@ h2 {
   box-shadow: none;
   opacity: 0.78;
   transition: opacity 4200ms cubic-bezier(0.15, 0.5, 0.5, 0.85);
-  touch-action: pan-x;
 }
 
 .velvet-verified,
@@ -1385,7 +1392,7 @@ h2 {
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
-  touch-action: auto;
+  touch-action: none;
 }
 
 .velvet-preview-overlay {
@@ -1408,6 +1415,8 @@ h2 {
   min-width: 0;
   padding: 0.72rem 0.72rem 0.64rem;
   background: linear-gradient(180deg, rgba(6, 9, 26, 0), rgba(6, 9, 26, 0.88));
+  pointer-events: none;
+  touch-action: none;
 }
 
 .velvet-card-footer strong {
@@ -1719,6 +1728,7 @@ h2 {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     padding: 0.16rem 0.1rem 0.22rem;
+    touch-action: pan-x;
   }
 
   .velvet-cards-grid::-webkit-scrollbar {
@@ -2075,6 +2085,7 @@ h2 {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     padding: 0.12rem 0.08rem 0.2rem;
+    touch-action: pan-x;
   }
 
   .velvet-cards-grid::-webkit-scrollbar {
