@@ -136,28 +136,37 @@ export default function Home() {
     let nextIndex = featuredCreators.length;
     let autoRotateTimer: ReturnType<typeof setInterval> | null = null;
     let rafId: number | null = null;
+    const desktopQuery = window.matchMedia('(min-width: 860px)');
 
     const getCardLeft = (index: number) => {
       const card = cards[index];
       return card.offsetLeft - (cardsTrack.clientWidth - card.offsetWidth) / 2;
     };
 
-    const animateTo = (
-      targetScrollLeft: number,
-      duration = MOBILE_CAROUSEL_TRANSITION_MS,
-      onComplete?: () => void
-    ) => {
+    const getLoopIndex = (index: number) => {
+      const upperBound = cards.length - featuredCreators.length;
+
+      if (index >= upperBound) {
+        return featuredCreators.length;
+      }
+
+      if (index < featuredCreators.length) {
+        return featuredCreators.length;
+      }
+
+      return index;
+    };
+
+    const animateTo = (targetScrollLeft: number, duration = MOBILE_CAROUSEL_TRANSITION_MS) => {
       if (rafId) {
         cancelAnimationFrame(rafId);
       }
-
-      cardsTrack.style.scrollSnapType = 'none';
 
       const start = cardsTrack.scrollLeft;
       const distance = targetScrollLeft - start;
       const startTime = performance.now();
 
-      const easeInOut = (t: number) => 0.5 - Math.cos(Math.PI * t) / 2;
+      const easeInOut = (progress: number) => 0.5 - Math.cos(Math.PI * progress) / 2;
 
       const step = (now: number) => {
         const elapsed = now - startTime;
@@ -166,54 +175,27 @@ export default function Home() {
 
         if (progress < 1) {
           rafId = requestAnimationFrame(step);
-        } else {
-          rafId = null;
-          cardsTrack.style.scrollSnapType = '';
-          onComplete?.();
+          return;
         }
+
+        rafId = null;
       };
 
       rafId = requestAnimationFrame(step);
     };
 
-    const scrollToCard = (index: number, smooth = true) => {
-      const boundedIndex = Math.max(0, Math.min(index, cards.length - 1));
+    const scrollToCard = (index: number, behavior: ScrollBehavior = 'auto') => {
+      const boundedIndex = Math.max(0, Math.min(getLoopIndex(index), cards.length - 1));
       const targetLeft = getCardLeft(boundedIndex);
 
-      // Update active card immediately so transform/opacity animate during the scroll movement.
-      setActiveCreatorIndex(boundedIndex);
-
-      if (smooth) {
-        animateTo(targetLeft, MOBILE_CAROUSEL_TRANSITION_MS, () => {
-          // Keep virtual index in the middle block so looping appears continuous.
-          const upperBound = cards.length - featuredCreators.length;
-          const lowerBound = featuredCreators.length - 1;
-
-          if (boundedIndex >= upperBound) {
-            const normalizedIndex = boundedIndex - featuredCreators.length;
-            cardsTrack.style.scrollSnapType = 'none';
-            cardsTrack.scrollLeft = getCardLeft(normalizedIndex);
-            nextIndex = normalizedIndex;
-            setActiveCreatorIndex(normalizedIndex);
-            requestAnimationFrame(() => {
-              cardsTrack.style.scrollSnapType = '';
-            });
-          } else if (boundedIndex <= lowerBound) {
-            const normalizedIndex = boundedIndex + featuredCreators.length;
-            cardsTrack.style.scrollSnapType = 'none';
-            cardsTrack.scrollLeft = getCardLeft(normalizedIndex);
-            nextIndex = normalizedIndex;
-            setActiveCreatorIndex(normalizedIndex);
-            requestAnimationFrame(() => {
-              cardsTrack.style.scrollSnapType = '';
-            });
-          }
-        });
+      if (behavior === 'smooth' && desktopQuery.matches) {
+        animateTo(targetLeft);
       } else {
-        cardsTrack.scrollLeft = targetLeft;
+        cardsTrack.scrollTo({ left: targetLeft, behavior });
       }
 
       nextIndex = boundedIndex;
+      setActiveCreatorIndex(boundedIndex);
     };
 
     const handleTrackScroll = () => {
@@ -232,29 +214,42 @@ export default function Home() {
 
       // Only update nextIndex, don't change activeCreatorIndex during scroll
       nextIndex = closestIndex;
+      setActiveCreatorIndex(closestIndex);
+    };
+
+    const stopAutoRotate = () => {
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+        autoRotateTimer = null;
+      }
     };
 
     const startAutoRotate = () => {
-      if (autoRotateTimer) {
-        clearInterval(autoRotateTimer);
+      stopAutoRotate();
+
+      if (!desktopQuery.matches) {
+        return;
       }
 
       autoRotateTimer = setInterval(() => {
-        scrollToCard(nextIndex + 1);
+        scrollToCard(nextIndex + 1, 'smooth');
       }, MOBILE_CAROUSEL_INTERVAL_MS);
     };
 
-    cardsTrack.addEventListener('scroll', handleTrackScroll, { passive: true });
+    const handleViewportChange = () => {
+      startAutoRotate();
+    };
 
-    scrollToCard(featuredCreators.length, false);
+    cardsTrack.addEventListener('scroll', handleTrackScroll, { passive: true });
+    desktopQuery.addEventListener('change', handleViewportChange);
+
+    scrollToCard(featuredCreators.length);
     startAutoRotate();
 
     return () => {
       cardsTrack.removeEventListener('scroll', handleTrackScroll);
-
-      if (autoRotateTimer) {
-        clearInterval(autoRotateTimer);
-      }
+      desktopQuery.removeEventListener('change', handleViewportChange);
+      stopAutoRotate();
 
       if (rafId) {
         cancelAnimationFrame(rafId);
@@ -380,12 +375,11 @@ export default function Home() {
                 key={`${creator.name}-${index}`}
                 className={`velvet-creator-card ${activeCreatorIndex === index ? 'is-active' : ''}`}
               >
-                <img 
-                  src={creator.preview} 
-                  alt={`${creator.name} destaque`} 
-                  className="velvet-preview-img"
-                  draggable={false}
-                />
+                  <div
+                    aria-hidden="true"
+                    className="velvet-preview-media"
+                    style={{ backgroundImage: `url("${creator.preview}")` }}
+                  />
                 <div className="velvet-preview-overlay" />
                 <div className="velvet-card-footer">
                   <div>
