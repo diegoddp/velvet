@@ -1273,12 +1273,20 @@ h2 {
   border: 0;
   border-radius: 0;
   padding: 1rem;
+  position: relative;
   background: transparent;
 }
 
 .velvet-featured::before {
   content: '';
-  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 90%, rgba(255, 77, 147, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(168, 85, 247, 0.10) 0%, transparent 70%);
+  border-radius: 24px;
 }
 
 .velvet-featured-header {
@@ -1334,6 +1342,8 @@ h2 {
   -webkit-overflow-scrolling: touch;
   touch-action: auto;
   scroll-behavior: smooth;
+  position: relative;
+  z-index: 1;
 }
 
 .velvet-creator-card {
@@ -1390,7 +1400,7 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  filter: saturate(1.12) brightness(1) contrast(1.06);
+  filter: saturate(1.12) brightness(1.15) contrast(1.06);
   transform: scale(1.04);
   pointer-events: none;
   user-select: none;
@@ -1671,7 +1681,7 @@ h2 {
   }
 
   .velvet-featured::before {
-    display: none;
+    display: block;
   }
 
   .velvet-featured-header {
@@ -1744,7 +1754,7 @@ h2 {
     min-height: 320px;
     border-radius: 9px;
     border: 1px solid rgba(255, 255, 255, 0.13);
-    box-shadow: 0 18px 28px rgba(3, 5, 15, 0.34), 0 0 22px rgba(255, 107, 189, 0.14);
+    box-shadow: 0 18px 32px rgba(3, 5, 15, 0.42), 0 0 24px rgba(255, 77, 147, 0.18), 0 0 8px rgba(168, 85, 247, 0.12);
   }
 
   .velvet-creator-card::after {
@@ -2444,6 +2454,18 @@ h2 {
     background: transparent;
   }
 
+  .velvet-featured::before {
+    display: block;
+    background:
+      radial-gradient(ellipse 100% 50% at 50% 100%, rgba(255, 77, 147, 0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 40% at 50% 50%, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
+  }
+
+  .velvet-featured {
+    border: 1px solid rgba(255, 77, 147, 0.08);
+    border-radius: 20px;
+  }
+
   .velvet-featured-header {
     display: flex;
     flex-direction: column;
@@ -2531,11 +2553,11 @@ h2 {
   }
 
   .velvet-preview-overlay {
-    background: linear-gradient(180deg, rgba(5, 10, 28, 0.02) 10%, rgba(5, 10, 28, 0.2) 52%, rgba(5, 10, 28, 0.86) 100%);
+    background: linear-gradient(180deg, rgba(5, 10, 28, 0.0) 0%, rgba(5, 10, 28, 0.12) 50%, rgba(5, 10, 28, 0.52) 100%);
   }
 
   .velvet-creator-card.is-active .velvet-preview-overlay {
-    background: linear-gradient(180deg, rgba(5, 10, 28, 0.01) 10%, rgba(5, 10, 28, 0.16) 52%, rgba(5, 10, 28, 0.8) 100%);
+    background: linear-gradient(180deg, rgba(5, 10, 28, 0.0) 0%, rgba(5, 10, 28, 0.08) 50%, rgba(5, 10, 28, 0.44) 100%);
   }
 
   .velvet-verified,
@@ -2718,7 +2740,7 @@ h2 {
 }
 
 /* -----------------------------------------------------------
-   CREATOR DASHBOARD  –  Velvet
+   CREATOR DASHBOARD  ï¿½  Velvet
    ----------------------------------------------------------- */
 
 /* -- Shell layout ------------------------------------------- */
