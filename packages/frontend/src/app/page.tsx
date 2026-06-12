@@ -245,16 +245,12 @@ export default function Home() {
     };
 
     cardsTrack.addEventListener('scroll', handleTrackScroll, { passive: true });
-    cardsTrack.addEventListener('touchstart', startAutoRotate, { passive: true });
-    cardsTrack.addEventListener('pointerdown', startAutoRotate, { passive: true });
 
     scrollToCard(featuredCreators.length, false);
     startAutoRotate();
 
     return () => {
       cardsTrack.removeEventListener('scroll', handleTrackScroll);
-      cardsTrack.removeEventListener('touchstart', startAutoRotate);
-      cardsTrack.removeEventListener('pointerdown', startAutoRotate);
 
       if (autoRotateTimer) {
         clearInterval(autoRotateTimer);
@@ -384,7 +380,12 @@ export default function Home() {
                 key={`${creator.name}-${index}`}
                 className={`velvet-creator-card ${activeCreatorIndex === index ? 'is-active' : ''}`}
               >
-                <img src={creator.preview} alt={`${creator.name} destaque`} className="velvet-preview-img" />
+                <img 
+                  src={creator.preview} 
+                  alt={`${creator.name} destaque`} 
+                  className="velvet-preview-img"
+                  draggable={false}
+                />
                 <div className="velvet-preview-overlay" />
                 <div className="velvet-card-footer">
                   <div>

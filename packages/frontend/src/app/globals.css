@@ -1391,8 +1391,7 @@ h2 {
   transform: scale(1.04);
   pointer-events: none;
   user-select: none;
-  -webkit-user-drag: none;
-  touch-action: none;
+  -webkit-user-select: none;
 }
 
 .velvet-preview-overlay {
@@ -1415,8 +1414,8 @@ h2 {
   min-width: 0;
   padding: 0.72rem 0.72rem 0.64rem;
   background: linear-gradient(180deg, rgba(6, 9, 26, 0), rgba(6, 9, 26, 0.88));
-  pointer-events: none;
-  touch-action: none;
+  pointer-events: auto;
+  z-index: 10;
 }
 
 .velvet-card-footer strong {

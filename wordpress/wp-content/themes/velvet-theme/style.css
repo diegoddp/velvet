@@ -1,0 +1,307 @@
+/*
+Theme Name: Velvet Theme
+Theme URI: https://example.com/velvet
+Author: Velvet Team
+Description: Standalone WordPress theme for the separated Velvet build.
+Version: 1.0.0
+Text Domain: velvet-theme
+*/
+
+:root {
+  --bg-deep: #050718;
+  --bg-mid: #0a0f2b;
+  --ink: #f4f6ff;
+  --muted: #abb2ce;
+  --accent: #ff4d93;
+  --accent-2: #a855f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  background:
+    radial-gradient(900px 540px at 8% -10%, rgba(255, 77, 147, 0.22), transparent),
+    radial-gradient(1000px 600px at 90% -20%, rgba(168, 85, 247, 0.2), transparent),
+    linear-gradient(145deg, var(--bg-deep), var(--bg-mid));
+}
+
+.velvet-shell {
+  min-height: 100vh;
+  padding: 0.8rem;
+}
+
+.velvet-container {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+}
+
+.velvet-nav {
+  display: grid;
+  grid-template-columns: auto minmax(260px, 420px) 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 16px;
+  background: rgba(7, 12, 34, 0.72);
+  padding: 0.74rem 1rem;
+}
+
+.velvet-logo {
+  letter-spacing: 0.06em;
+  font-size: 1.8rem;
+  color: #f0d1a0;
+}
+
+.velvet-search {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 0.66rem 1rem;
+  color: #8f98bc;
+  font-size: 0.9rem;
+}
+
+.velvet-links {
+  display: inline-flex;
+  justify-content: center;
+  gap: 1.3rem;
+}
+
+.velvet-links a {
+  color: #dce2ff;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.velvet-cta-row {
+  display: inline-flex;
+  gap: 0.6rem;
+}
+
+.velvet-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.66rem 1.02rem;
+  border: 1px solid transparent;
+}
+
+.velvet-btn-main {
+  color: #fff;
+  background: linear-gradient(135deg, #b05bff 0%, #ff4d93 70%, #ff5fb1 100%);
+}
+
+.velvet-btn-ghost {
+  color: #e3e8ff;
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.velvet-hero {
+  margin-top: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 20px;
+  background: linear-gradient(110deg, rgba(6, 11, 34, 0.95), rgba(3, 8, 28, 0.98));
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1rem;
+}
+
+.velvet-copy-col {
+  max-width: 620px;
+  padding: 1rem 0.9rem 0.4rem;
+}
+
+.velvet-kicker {
+  display: inline-flex;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.73rem;
+  color: #cfd6f5;
+  margin-bottom: 1.1rem;
+}
+
+.velvet-title {
+  margin: 0;
+  font-size: clamp(2.15rem, 4.4vw, 4.2rem);
+  line-height: 1.03;
+}
+
+.velvet-subtitle {
+  margin: 1.2rem 0 0;
+  max-width: 44ch;
+  line-height: 1.52;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.velvet-hero-actions {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-top: 1.3rem;
+}
+
+.velvet-hero-actions .velvet-btn {
+  min-width: 250px;
+}
+
+.velvet-hero-media {
+  min-height: 560px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.velvet-hero-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 84% center;
+}
+
+.velvet-hero-media-badge {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(5, 10, 28, 0.66);
+  padding: 0.45rem 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.velvet-featured {
+  margin-top: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1rem;
+  background: rgba(6, 10, 30, 0.72);
+}
+
+.velvet-featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.velvet-featured-header h2 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.velvet-featured-header a {
+  color: #d7ddfa;
+  text-decoration: none;
+}
+
+.velvet-cards-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.velvet-creator-card {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(17, 25, 55, 0.62);
+  height: 235px;
+  position: relative;
+  overflow: hidden;
+}
+
+.velvet-preview-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.velvet-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 10, 28, 0.06), rgba(5, 10, 28, 0.78));
+}
+
+.velvet-card-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.72rem;
+  background: linear-gradient(180deg, rgba(6, 9, 26, 0), rgba(6, 9, 26, 0.88));
+}
+
+.velvet-card-footer strong {
+  font-size: 1rem;
+}
+
+.velvet-card-footer span {
+  border: 1px solid rgba(248, 87, 158, 0.55);
+  border-radius: 999px;
+  padding: 0.2rem 0.52rem;
+  font-size: 0.68rem;
+  color: #ff79bc;
+  background: rgba(248, 87, 158, 0.12);
+}
+
+.velvet-simple-panel {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 16px;
+  background: rgba(7, 12, 34, 0.72);
+  padding: 1rem;
+}
+
+@media (max-width: 1180px) {
+  .velvet-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .velvet-nav {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .velvet-links,
+  .velvet-cta-row {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .velvet-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .velvet-hero-media {
+    min-height: 380px;
+  }
+
+  .velvet-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: velvet-wp-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-velvet_wp}
+      MYSQL_USER: ${MYSQL_USER:-velvet_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-velvet_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - wp_db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.5-php8.2-apache
+    container_name: velvet-wordpress
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER:-velvet_user}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-velvet_password}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-velvet_wp}
+    volumes:
+      - wp_data:/var/www/html
+      - ./wp-content:/var/www/html/wp-content
+
+volumes:
+  wp_db_data:
+  wp_data:
