@@ -1274,7 +1274,7 @@ h2 {
   border-radius: 0;
   padding: 1rem;
   position: relative;
-  background: transparent;
+  background: linear-gradient(135deg, #1f2a40 0%, #2a1f40 100%);
 }
 
 .velvet-featured::before {
@@ -1284,8 +1284,8 @@ h2 {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 90%, rgba(255, 77, 147, 0.14) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(168, 85, 247, 0.10) 0%, transparent 70%);
+    radial-gradient(ellipse 80% 60% at 50% 90%, rgba(255, 77, 147, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(168, 85, 247, 0.14) 0%, transparent 70%);
   border-radius: 24px;
 }
 
@@ -1631,7 +1631,7 @@ h2 {
     background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(226, 154, 255, 0.86), rgba(255, 255, 255, 0));
     box-shadow: 0 0 9px rgba(220, 120, 255, 0.2);
     pointer-events: none;
-    z-index: 8;
+    z-index: 10;
   }
 
   .velvet-hero::before {
@@ -1644,7 +1644,7 @@ h2 {
     background: linear-gradient(180deg, rgba(220, 120, 255, 0.34) 0%, rgba(220, 120, 255, 0.18) 34%, rgba(220, 120, 255, 0.07) 62%, rgba(220, 120, 255, 0) 100%);
     filter: blur(6px);
     pointer-events: none;
-    z-index: 7;
+    z-index: 9;
   }
 
   .velvet-hero-media {
@@ -1653,6 +1653,7 @@ h2 {
     min-height: 100%;
     border-radius: 0;
     border: 0;
+    z-index: 1;
   }
 
   .velvet-copy-col {
@@ -2457,8 +2458,8 @@ h2 {
   .velvet-featured::before {
     display: block;
     background:
-      radial-gradient(ellipse 100% 50% at 50% 100%, rgba(255, 77, 147, 0.22) 0%, transparent 70%),
-      radial-gradient(ellipse 70% 40% at 50% 50%, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
+      radial-gradient(ellipse 100% 50% at 50% 100%, rgba(255, 77, 147, 0.28) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 40% at 50% 50%, rgba(168, 85, 247, 0.22) 0%, transparent 70%);
   }
 
   .velvet-featured {
