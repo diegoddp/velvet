@@ -42,22 +42,22 @@ const MOBILE_CAROUSEL_TRANSITION_MS = 4200;
 const trustItems = [
   {
     title: 'Verificacao de idade',
-    description: 'Processo seguro para garantir que todos sao maiores de 18 anos.',
+    description: 'Validamos cada conta para manter uma comunidade legal, madura e responsavel.',
     icon: 'id'
   },
   {
     title: 'Pagamentos seguros',
-    description: 'Transacoes protegidas com criptografia e parceiros confiaveis.',
+    description: 'Transacoes protegidas com criptografia e processamento por parceiros confiaveis.',
     icon: 'lock'
   },
   {
-    title: 'Moderacao de conteudo',
-    description: 'Equipe dedicada e tecnologia para manter a plataforma segura.',
+    title: 'Moderacao ativa',
+    description: 'Monitoramento continuo para aplicar diretrizes e manter um ambiente seguro.',
     icon: 'shield'
   },
   {
-    title: 'Privacidade em primeiro lugar',
-    description: 'Seus dados e sua identidade estao sempre protegidos.',
+    title: 'Privacidade primeiro',
+    description: 'Seus dados sao protegidos com rigor e nunca compartilhados sem consentimento.',
     icon: 'eyeOff'
   }
 ];
@@ -103,6 +103,7 @@ function TrustIcon({ type }: { type: string }) {
 export default function Home() {
   const [parallaxY, setParallaxY] = useState(0);
   const [activeCreatorIndex, setActiveCreatorIndex] = useState(featuredCreators.length);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const cardsTrackRef = useRef<HTMLDivElement | null>(null);
   const heroImage = '/placeholders/hero-main.png';
 
@@ -110,6 +111,7 @@ export default function Home() {
     const onScroll = () => {
       const offset = Math.min(90, window.scrollY * 0.2);
       setParallaxY(offset);
+      setShowScrollTop(window.scrollY > 320);
     };
 
     onScroll();
@@ -400,18 +402,40 @@ export default function Home() {
         </section>
 
         <section className="velvet-trust-bar rise delay-2">
-          {trustItems.map((item) => (
-            <div key={item.title} className="velvet-trust-item">
-              <div className="velvet-trust-icon" aria-hidden="true">
-                <TrustIcon type={item.icon} />
-              </div>
-              <div>
-                <strong>{item.title}</strong>
-                <p>{item.description}</p>
-              </div>
-            </div>
-          ))}
+          <header className="velvet-trust-head">
+            <h2>Regra clara. Proteção de verdade.</h2>
+            <p>
+              Sem conta fake e sem brecha: verificacao 18+, pagamentos blindados,
+              moderacao 24/7 e privacidade levada a serio.
+            </p>
+          </header>
+
+          <div className="velvet-trust-grid">
+            {trustItems.map((item) => (
+              <article key={item.title} className="velvet-trust-item">
+                <div className="velvet-trust-icon" aria-hidden="true">
+                  <TrustIcon type={item.icon} />
+                </div>
+                <div className="velvet-trust-copy">
+                  <strong>{item.title}</strong>
+                  <span className="velvet-trust-accent" aria-hidden="true" />
+                  <p>{item.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
+
+        <button
+          type="button"
+          className={`velvet-scroll-top${showScrollTop ? ' is-visible' : ''}`}
+          aria-label="Voltar ao topo"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="velvet-scroll-top-svg">
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+        </button>
 
         <footer className="velvet-footer rise delay-2">
           <div className="velvet-logo">
